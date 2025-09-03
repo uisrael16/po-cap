@@ -1,16 +1,24 @@
 annotate CatalogService.PurchaseOrders with @odata.draft.enabled;
 
 annotate CatalogService.Suppliers with @UI : {
-  LineItem : [
-    { Value: ID },
+  HeaderInfo: {
+    TypeName: 'Supplier', TypeNamePlural: 'Suppliers',
+    Title: { Value: name },
+    Description: { Value: email }
+  },
+  Identification: [
+    { Value: ID, Label: 'Supplier ID' },
     { Value: name, Label: 'Supplier' },
-    { Value: email },
-    { Value: phone }
+    { Value: email, Label: 'Email' },
+    { Value: phone, Label: 'Phone' }
   ],
-  Identification : [
-    { Value: name }
-  ]
+  LineItem: [
+    { Value: ID }, { Value: name }, { Value: email }, { Value: phone }
+  ],
+  SelectionFields: [ ID, name, email, phone ]
 };
+
+
 
 annotate CatalogService.Products with @UI : {
   LineItem : [
