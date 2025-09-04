@@ -15,16 +15,16 @@ entity Product {
   price    : Decimal(9,2);
   currency : Currency;
 }
-
-entity PurchaseOrder :  managed {
+entity PurchaseOrder : managed {
    key ID         : String(20);
-  supplier : Association to Supplier;   // foreign key supplier_ID auto-generated
-  docDate  : Date;
-  status   : String(20) default 'New';
-  totalAmount : Decimal(11,2);
-  currency : Currency;
-  items    : Composition of many PurchaseOrderItem
-             on items.parent = $self;
+   supplier       : Association to Supplier;
+   docDate        : Date;
+   status         : String(20) default 'New';
+   totalAmount    : Decimal(11,2);
+   currency       : Currency;
+   items          : Composition of many PurchaseOrderItem
+                    on items.parent = $self;
+                    
 }
 
 entity PurchaseOrderItem : cuid {
