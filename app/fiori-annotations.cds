@@ -33,12 +33,7 @@ annotate CatalogService.Suppliers with @UI : {
       Label  : 'General Information',
       Target : '@UI.Identification',
     },
-    {
-      $Type  : 'UI.ReferenceFacet',
-      Label  : 'Contacts',
-      Target : '@UI.LineItem',
-      
-    }
+    
   ],
 
   // Filters in List Report
@@ -46,21 +41,47 @@ annotate CatalogService.Suppliers with @UI : {
 };
 
 
-
-
-
 annotate CatalogService.Products with @UI : {
+
+  // Header section with main product info
+  HeaderInfo : {
+    TypeName       : 'Product',
+    TypeNamePlural : 'Products',
+    Title          : { Value: sku },
+    Description    : { Value: Product_name },
+    AdditionalInfo : { Value: price, Label: '💰 Price' },
+    // TypeImageUrl   : { Value: 'https://dummyimage.com/80x80/0072c6/ffffff&text=' + sku }
+  },
+
+  // List report / table view
   LineItem : [
-     { Value: ID },
-    { Value: sku },
-    { Value: Product_name, Label: 'Product N' },
-    { Value: price },
-    { Value: currency_code }
+    { $Type: 'UI.DataField', Value: ID, Importance: #High, Label: '🆔 Product ID' },
+    { $Type: 'UI.DataField', Value: sku, Importance: #High, Label: '📦 SKU' },
+    { $Type: 'UI.DataField', Value: Product_name, Label: '📌 Product Name', Importance: #High },
+    { $Type: 'UI.DataField', Value: price, Label: '💰 Price', Importance: #High },
+    { $Type: 'UI.DataField', Value: currency_code, Label: '💱 Currency', Importance: #High }
   ],
+
+  // Object Page details section — inline style
   Identification : [
-    { Value: Product_name }
+    { $Type: 'UI.DataField', Value: ID, Label: '🆔 Product ID', LabelPlacement: #Inline },
+    { $Type: 'UI.DataField', Value: sku, Label: '📦 SKU', LabelPlacement: #Inline },
+    { $Type: 'UI.DataField', Value: Product_name, Label: '📌 Product Name', LabelPlacement: #Inline },
+    { $Type: 'UI.DataField', Value: price, Label: '💰 Price', LabelPlacement: #Inline },
+    { $Type: 'UI.DataField', Value: currency_code, Label: '💱 Currency', LabelPlacement: #Inline }
+  ],
+
+  // Object Page sections / facets
+  Facets : [
+    {
+      $Type  : 'UI.ReferenceFacet',
+      Label  : 'General Information',
+      Target : '@UI.Identification',
+      Position : 10
+    }
   ]
 };
+
 
 annotate CatalogService.PurchaseOrders with @UI : {
     LineItem : [
