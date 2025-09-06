@@ -1,44 +1,51 @@
 annotate CatalogService.PurchaseOrders with @odata.draft.enabled;
 
+
 annotate CatalogService.Suppliers with @UI : {
   HeaderInfo : {
     TypeName       : 'Supplier',
     TypeNamePlural : 'Suppliers',
-    Title          : { Value: name },        // Large title in header
-    Description    : { Value: email },       // Secondary info
-    AdditionalInfo : { Value: phone },       // Show phone next to description
-    TypeImageUrl   : { Value: logoUrl }      // Optional: show company logo if you have one
+    Title          : { Value: name },
+    Description    : { Value: email },          // Secondary info
+    AdditionalInfo : { Value: phone },
+    TypeImageUrl   : { Value: logoUrl }
   },
 
   // Identification block (object page details)
   Identification : [
     { $Type: 'UI.DataField', Value: ID,    Label: 'Supplier ID' },
     { $Type: 'UI.DataField', Value: name,  Label: 'Supplier Name' },
-    { $Type: 'UI.DataFieldWithUrl', Value: email, Label: 'Email', Url: 'mailto:{email}' },
-    { $Type: 'UI.DataFieldWithUrl', Value: phone, Label: 'Phone', Url: 'tel:{phone}' }
+    { $Type: 'UI.DataFieldWithUrl', Value: email, Label: '📧 Email', Url: 'mailto:{email}' },
+    { $Type: 'UI.DataFieldWithUrl', Value: phone, Label: '📞 Phone', Url: 'tel:{phone}' }
   ],
 
-  // Line item table (List Report + sub-section in Object Page)
+  // Table (List Report + sub-section in Object Page)
   LineItem : [
-    { $Type: 'UI.DataField', Value: ID,    Label: 'Supplier ID' },
-    { $Type: 'UI.DataField', Value: name,  Label: 'Supplier Name' },
-    { $Type: 'UI.DataFieldWithUrl', Value: email, Label: 'Email', Url: 'mailto:{email}' },
-    { $Type: 'UI.DataFieldWithUrl', Value: phone, Label: 'Phone', Url: 'tel:{phone}' }
+    { $Type: 'UI.DataField', Value: ID,    Label: 'Supplier ID', Importance: #High },
+    { $Type: 'UI.DataField', Value: name,  Label: 'Supplier Name', Importance: #High },
+    { $Type: 'UI.DataFieldWithUrl', Value: email, Label: '📧 Email', Url: 'mailto:{email}' },
+    { $Type: 'UI.DataFieldWithUrl', Value: phone, Label: '📞 Phone', Url: 'tel:{phone}' }
   ],
-  // Existing HeaderInfo, Identification, LineItem, SelectionFields...
-  
- Facets : [
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Label  : 'Purchase Orders',
-            Target : 'docDate',
-            Position: 30
-        }
-    ],
 
-  // Search and filter options
+  Facets : [
+    {
+      $Type  : 'UI.ReferenceFacet',
+      Label  : 'General Information',
+      Target : '@UI.Identification',
+    },
+    {
+      $Type  : 'UI.ReferenceFacet',
+      Label  : 'Contacts',
+      Target : '@UI.LineItem',
+      
+    }
+  ],
+
+  // Filters in List Report
   SelectionFields : [ ID, name, email, phone ]
 };
+
+
 
 
 
@@ -96,8 +103,15 @@ annotate CatalogService.PurchaseOrderItems with @UI : {
     { Value: quantity, Label: 'Quantity' },
     { Value: netPrice, Label: 'Net Price' },
     { Value: lineAmount, Label: 'Line Amount' },
-    { Value: currency_code, Label: 'Currency' }
+    { $Type: 'UI.DataField', Value: currency_code, Label: '💰 Currency' }
   ],
+  // Facets : [
+  //   {
+  //     $Type  : 'UI.ReferenceFacet',
+  //     Label  : 'Order Items Information',
+  //     Target : '@UI.Identification',
+  //   },
+  // ],
 
   // Fields visible in the Object Page header section
   Identification : [
@@ -106,8 +120,9 @@ annotate CatalogService.PurchaseOrderItems with @UI : {
     { Value: quantity },
     { Value: netPrice },
     { Value: lineAmount },
-    { Value: currency }
+    { $Type: 'UI.DataField', Value: currency_code, Label: '💰 Currency' }
   ],
+  
 
   // Filter fields in List Report / Object Page
   SelectionFields : [ parent, product, currency ]

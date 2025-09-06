@@ -8,6 +8,14 @@ entity Supplier {
   email    : String;
   phone    : String;
 }
+
+entity Conduct {
+  key ID        : UUID;
+  supplier      : Association to Supplier;
+  contactName   : String;
+  contactEmail  : String;
+  contactPhone  : String;
+}
 entity Product {
   key ID   : UUID;
   sku      : String(30);
@@ -36,10 +44,5 @@ entity PurchaseOrderItem : cuid {
   currency   : Currency;
 }
 
-// entity MyCurrency {
-//   key code : String(3);
-//       name : String(50);
-//       symbol : String(5);
-// };
 
 
